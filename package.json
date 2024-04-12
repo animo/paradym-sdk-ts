@@ -3,9 +3,11 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
+		"generate": "openapi-ts",
 		"start": "tsx src/index.ts"
 	},
 	"dependencies": {
+		"@hey-api/openapi-ts": "^0.37.0",
 		"dotenv": "^16.4.5"
 	},
 	"devDependencies": {
