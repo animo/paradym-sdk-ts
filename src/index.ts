@@ -28,7 +28,7 @@ async function run() {
         },
         type: "EmployeeBadge",
         revocable: false,
-        fields: {
+        attributes: {
           first_name: {
             type: "string",
             title: "First Name",
@@ -62,7 +62,7 @@ async function run() {
             required: true,
           },
         },
-        defaultFields: {
+        defaultAttributes: {
           expiration: {
             required: true,
             default: {
@@ -86,7 +86,7 @@ async function run() {
         credentials: [
           {
             format: "sd-jwt-vc",
-            fields: {
+            attributes: {
               first_name: {
                 type: "string",
                 const: "John",
@@ -112,7 +112,7 @@ async function run() {
       credentials: [
         {
           credentialTemplateId: credentialTemplate.id,
-          fields: {
+          attributes: {
             first_name: "John",
             last_name: "Doe",
             employee_id: "123",
