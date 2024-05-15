@@ -29,7 +29,7 @@ async function updateProfile({ projectId }: WithProjectId) {
   return updatedProfile;
 }
 
-async function run() {
+async function runSdJwtVc() {
   let projectId = process.env.PROJECT_ID;
 
   if (!projectId) {
@@ -41,11 +41,11 @@ async function run() {
   console.log("Updated profile", JSON.stringify(profile, null, 2));
 
   const credentialTemplate = process.env.CREDENTIAL_TEMPLATE_ID
-    ? await client.templates.credentials.getSdJwtVcTemplate({
+    ? await client.templates.credentials.sdJwtVc.getSdJwtVcTemplate({
         credentialTemplateId: process.env.CREDENTIAL_TEMPLATE_ID,
         projectId,
       })
-    : await client.templates.credentials.createSdJwtVcTemplate({
+    : await client.templates.credentials.sdJwtVc.createSdJwtVcTemplate({
         projectId: projectId,
         requestBody: {
           name: "Employee Badge",
@@ -102,7 +102,7 @@ async function run() {
 
   const presentationTemplate = process.env.PRESENTATION_TEMPLATE_ID
     ? await client.templates.presentations.getPresentationTemplate({
-        id: process.env.PRESENTATION_TEMPLATE_ID,
+        presentationTemplateId: process.env.PRESENTATION_TEMPLATE_ID,
         projectId,
       })
     : await client.templates.presentations.createPresentationTemplate({
@@ -194,4 +194,127 @@ async function run() {
   );
 }
 
-run();
+async function runDidcommAnoncreds() {
+  let projectId = process.env.PROJECT_ID;
+
+  if (!projectId) {
+    const project = await createProject();
+    projectId = project.id;
+  }
+
+  const profile = await updateProfile({ projectId });
+  console.log("Updated profile", JSON.stringify(profile, null, 2));
+
+  const credentialTemplate = process.env.CREDENTIAL_TEMPLATE_ID
+    ? await client.templates.credentials.anoncreds.getAnoncredsTemplate({
+        credentialTemplateId: process.env.CREDENTIAL_TEMPLATE_ID,
+        projectId,
+      })
+      // FIXME: why are additional properties allowed?
+    : await client.templates.credentials.anoncreds.createAnoncredsTemplate({
+        projectId: projectId,
+        requestBody: {
+          // FIXME: name needs to be unique (per issuer + schema)
+          name: "Employee Badge" + Math.random(),
+          description: "Credential for employee badge",
+          issuer: 'did:cheqd:testnet',
+          revocable: false,
+          attributes: {
+            first_name: {
+              type: "string",
+              name: "First Name",
+            },
+            last_name: {
+              type: "string",
+              name: "Last Name",
+            },
+            employee_id: {
+              type: "string",
+              name: "Employee ID",
+            },
+            department: {
+              type: "string",
+              name: "Department",
+              description: "Department of the employee",
+            },
+            is_admin: {
+              type: "number",
+              name: "Is Admin",
+            },
+
+          },
+        },
+      });
+  console.log(
+    "Anoncreds Template",
+    JSON.stringify(credentialTemplate, null, 2)
+  );
+
+  const presentationTemplate = process.env.PRESENTATION_TEMPLATE_ID
+    ? await client.templates.presentations.getPresentationTemplate({
+        presentationTemplateId: process.env.PRESENTATION_TEMPLATE_ID,
+        projectId,
+      })
+    : await client.templates.presentations.createPresentationTemplate({
+        projectId: projectId,
+        requestBody: {
+          description:
+            "We need to verify you're an employee of Animo Solutions",
+          name: "Employee Verification",
+          credentials: [
+            {
+              format: "anoncreds",
+              schema: credentialTemplate.schema,
+              issuers: [credentialTemplate.issuer],
+              attributes: {
+                first_name: {
+                  type: "string",
+                  value: "John",
+                },
+                is_admin: {
+                  type: "number",
+                  value: 1
+                },
+              },
+            },
+          ],
+        },
+      });
+  console.log(
+    "Verification Template",
+    JSON.stringify(presentationTemplate, null, 2)
+  );
+
+  let didcommInvitation = await client.didcomm.invitations.createDidcommConnectionInvitation({
+    projectId,
+    requestBody: {
+      did: 'did:web',
+    }
+  })
+  console.log("DIDComm invitation", JSON.stringify(didcommInvitation, null, 2))
+  
+  // FIXME: should this be didcommConnection?
+  const {connection  } = await client.didcomm.invitations.receiveDidcommInvitation({
+    projectId,
+    requestBody: {
+      invitation: didcommInvitation.invitationUri,
+      displayName: 'The other side'
+    }
+  })
+  console.log("DIDcomm connection", JSON.stringify(connection, null, 2))
+
+  const sentMessage = await client.didcomm.messaging.sendBasicMessage({
+    projectId,
+    requestBody: {
+      didcommConnectionId: connection.id,
+      message: 'Hey there!'
+    }
+  })
+
+  console.log("DIDcomm Basic message", JSON.stringify(sentMessage, null,2))
+}
+
+
+runDidcommAnoncreds()
+
+// runSdJwtVc();
