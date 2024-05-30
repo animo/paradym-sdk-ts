@@ -2,12 +2,17 @@ import "dotenv/config";
 import {
 	OpenAPI,
 	ProjectsService,
-	CredentialTemplatesService,
 	PresentationTemplatesService,
 	OpenId4VcIssuanceService,
 	OpenId4VcVerificationService,
 	ProjectProfileService,
 	WebhooksService,
+	AnoncredsCredentialTemplatesService,
+	SdJwtVcCredentialTemplatesService,
+	DidCommInvitationsService,
+	DidCommConnectionsService,
+	DiDsService,
+	DidCommMessagingService,
 } from "./generated";
 
 OpenAPI.HEADERS = {
@@ -20,12 +25,21 @@ export const client = {
 	projects: ProjectsService,
 	projectProfile: ProjectProfileService,
 	webhooks: WebhooksService,
+	dids: DiDsService,
 	templates: {
-		credentials: CredentialTemplatesService,
+		credentials: {
+			sdJwtVc: SdJwtVcCredentialTemplatesService,
+			anoncreds: AnoncredsCredentialTemplatesService,
+		},
 		presentations: PresentationTemplatesService,
 	},
 	openId4Vc: {
 		issuance: OpenId4VcIssuanceService,
 		verification: OpenId4VcVerificationService,
+	},
+	didcomm: {
+		invitations: DidCommInvitationsService,
+		connections: DidCommConnectionsService,
+		messaging: DidCommMessagingService,
 	},
 };
