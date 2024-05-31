@@ -2,11 +2,10 @@
 	"name": "paradym-sdk-ts",
 	"version": "1.0.0",
 	"type": "module",
-	"license": "ISC",
+	"license": "Apache-2.0",
 	"scripts": {
 	  "generate": "openapi-ts",
 	  "build": "tsc",
-	  "start": "tsx src/index.ts",
 	  "style": "biome check .",
 	  "style:fix": "biome check . --apply-unsafe"
 	},
