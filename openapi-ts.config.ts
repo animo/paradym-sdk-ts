@@ -1,8 +1,23 @@
-import "dotenv/config";
-import { defineConfig } from "@hey-api/openapi-ts";
-import * as process from "node:process";
+import 'dotenv/config'
+import { type UserConfig } from '@hey-api/openapi-ts'
 
-export default defineConfig({
-	input: `${process.env.SERVER}/openapi-docs.json`,
-	output: "src/generated",
-});
+// Issues with the configuring through the defineConfig helper function
+// Error(TS4082) |
+// Default export of the module has or is using private name ClientConfig .
+// export default defineConfig({
+//   input: 'https://api.paradym.id/openapi.json',
+//   output: 'src/generated',
+//   services: {
+//     asClass: true,
+//   },
+// })
+
+const config: UserConfig = {
+  input: 'https://api.paradym.id/openapi.json',
+  output: 'src/generated',
+  services: {
+    asClass: true,
+  },
+}
+
+export default config
