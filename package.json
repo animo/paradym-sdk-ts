@@ -1,17 +1,22 @@
 {
-	"name": "paradym-api-test",
+	"name": "paradym-sdk-ts",
 	"version": "1.0.0",
 	"type": "module",
+	"license": "ISC",
 	"scripts": {
-		"generate": "openapi-ts",
-		"start": "tsx src/index.ts"
+	  "generate": "openapi-ts",
+	  "build": "tsc",
+	  "start": "tsx src/index.ts",
+	  "style": "biome check .",
+	  "style:fix": "biome check . --apply-unsafe"
 	},
 	"dependencies": {
-		"@noble/hashes": "^1.4.0",
-		"dotenv": "^16.4.5"
+	  "@noble/hashes": "^1.4.0",
+	  "dotenv": "^16.4.5"
 	},
 	"devDependencies": {
-		"@hey-api/openapi-ts": "^0.37.0",
+		"@biomejs/biome": "1.7.3",
+		"@hey-api/openapi-ts": "^0.46.3",
 		"@types/node": "^20.12.6",
 		"tsx": "^4.7.2",
 		"typescript": "~5.4.5"
