@@ -1,4 +1,3 @@
-import "dotenv/config";
 import {
     OpenAPI,
     ProjectsService,
@@ -8,7 +7,7 @@ import {
     OpenId4VcVerificationService,
     ProjectProfileService,
     WebhooksService,
-} from "./generated";
+} from "../generated";
 
 export class Client {
     projects: typeof ProjectsService

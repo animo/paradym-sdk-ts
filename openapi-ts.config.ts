@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { type UserConfig } from '@hey-api/openapi-ts'
 
 // Issues with the configuring through the defineConfig helper function
@@ -13,8 +12,8 @@ import { type UserConfig } from '@hey-api/openapi-ts'
 // })
 
 const config: UserConfig = {
-  input: 'https://api.paradym.id/openapi.json',
-  output: 'src/generated',
+  input: process.env.SERVER ?? 'https://api.paradym.id/openapi.json',
+  output: 'generated',
   services: {
     asClass: true,
   },

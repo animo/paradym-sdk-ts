@@ -5,15 +5,15 @@
 	"license": "Apache-2.0",
 	"scripts": {
 	  "generate": "openapi-ts",
-	  "build": "tsc",
+	  "build": "pnpm generate && tsc",
 	  "style": "biome check .",
 	  "style:fix": "biome check . --apply-unsafe"
 	},
 	"dependencies": {
-	  "@noble/hashes": "^1.4.0",
-	  "dotenv": "^16.4.5"
+	  "@noble/hashes": "^1.4.0"
 	},
 	"devDependencies": {
+		"dotenv": "^16.4.5",
 		"@biomejs/biome": "1.7.3",
 		"@hey-api/openapi-ts": "^0.46.3",
 		"@types/node": "^20.12.6",

@@ -29,11 +29,11 @@ jobs:
         with:
           version: latest
 
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Run Biome
         run: biome ci .
+
+      - name: Install dependencies
+        run: pnpm install  
 
       - name: Generate output files
         env:
