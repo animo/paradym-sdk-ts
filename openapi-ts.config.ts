@@ -1,4 +1,4 @@
-import { type UserConfig } from '@hey-api/openapi-ts'
+import type { UserConfig } from '@hey-api/openapi-ts'
 
 // Issues with the configuring through the defineConfig helper function
 // Error(TS4082) |

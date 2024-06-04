@@ -1,20 +1,19 @@
 {
-	"compilerOptions": {
-	  "module": "commonjs",
-	  "target": "ES2017",
-	  "declaration": true,
-	  "sourceMap": true,
-	  "strict": true,
-	  "noEmitOnError": true,
-	  "lib": ["ES2015", "DOM"],
-	  "types": ["node"],
-	  "esModuleInterop": true,
-	  "allowSyntheticDefaultImports": true,
-	  "resolveJsonModule": true,
-	  "experimentalDecorators": true,
-	  "emitDecoratorMetadata": true,
-	  "outDir": "build"
-	},
-	"exclude": ["node_modules", "build", "**/*.test.ts", "**/__tests__/*.ts", "**/__mocks__/*.ts", "**/build/**"]
-  }
-  
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2017",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "noEmitOnError": true,
+    "lib": ["ES2015", "DOM"],
+    "types": ["node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "build"
+  },
+  "exclude": ["node_modules", "build", "**/*.test.ts", "**/__tests__/*.ts", "**/__mocks__/*.ts", "**/build/**"]
+}
