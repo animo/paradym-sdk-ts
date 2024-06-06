@@ -9,7 +9,7 @@ import {
   WebhooksService,
 } from '../generated'
 
-export class Client {
+export default class Paradym {
   projects: typeof ProjectsService
   projectProfile: typeof ProjectProfileService
   webhooks: typeof WebhooksService
