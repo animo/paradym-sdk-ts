@@ -44,4 +44,4 @@ export default class Paradym {
   }
 }
 
-export { Paradym };
+export { Paradym }
