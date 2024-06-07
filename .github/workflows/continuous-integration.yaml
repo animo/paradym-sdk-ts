@@ -37,7 +37,7 @@ jobs:
 
       - name: Generate output files
         env:
-          SERVER: https://api.paradym.id
+          SERVER: https://api.paradym.id/openapi.json
         run: pnpm generate
 
       - name: Build packages
