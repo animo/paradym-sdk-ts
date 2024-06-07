@@ -1,5 +1,5 @@
 {
-  "name": "paradym-sdk-ts",
+  "name": "@paradym/sdk",
   "version": "1.0.0",
   "type": "module",
   "license": "Apache-2.0",
