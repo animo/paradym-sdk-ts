@@ -2,7 +2,7 @@
 <div align="center">
    <img src="assets/icon.png" alt="Paradym Logo" height="176px" />
 </div>
-<h1 align="center"><b>Paradym SDK</b></h1>
+<h1 align="center"><b>Paradym TypeScript SDK</b></h1>
 </p>
 
 
