@@ -95,8 +95,6 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo ${{ inputs.release-type }}
-
           if [ ${{ inputs.release-type }} == 'alpha' ]; then
             pnpm release prerelease --yes
           else
