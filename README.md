@@ -1,14 +1,10 @@
 <p align="center">
-  <picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656578320/animo-logo-light-no-text_ok9auy.svg">
-   <source media="(prefers-color-scheme: dark)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656578320/animo-logo-dark-no-text_fqqdq9.svg">
-   <img alt="Animo Logo" height="250px" />
-  </picture>
+<div align="center">
+   <img src="assets/icon.png" alt="Paradym Logo" height="176px" />
+</div>
+<h1 align="center"><b>Paradym SDK</b></h1>
 </p>
 
-<h1 align="center" ><b>Paradym SDK</b></h1>
-
-<h4 align="center">Powered by Animo</h4><br>
 
 <p align="center">
   <a href="https://typescriptlang.org">
@@ -118,7 +114,6 @@ paradym.openId4Vc.issuance.createIssuanceOffer({
   }
 })
 ```
-
 
 #### Create a SD-JWT presentation template:
 ```ts
