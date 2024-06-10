@@ -1,11 +1,11 @@
 import {
-  SdJwtVcCredentialTemplatesService,
   OpenAPI,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
   ProjectProfileService,
   ProjectsService,
+  SdJwtVcCredentialTemplatesService,
   WebhooksService,
 } from '../generated'
 
