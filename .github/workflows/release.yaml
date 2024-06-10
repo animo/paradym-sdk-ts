@@ -3,18 +3,16 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      releaseType:
-        description: The type of release. Should be one of "major", "minor", "patch"
+      release-type:
+        description: 'Type of release (major, minor, patch, alpha)'
         required: true
-        default: 'patch'
+        default: alpha
         type: choice
         options:
           - major
           - minor
           - patch
-  pull_request:
-    branches:
-      - main
+          - alpha
 
 jobs:
   validate:
@@ -91,6 +89,20 @@ jobs:
 
       - name: Build the library
         run: pnpm build
+
+      - name: Publish
+        id: publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ ${{ inputs.release-type }} == 'alpha' ]; then
+            pnpm release prerelease --yes
+          else
+            pnpm release ${{ inputs.release-type }} --force-publish --no-private --yes
+          fi
+
+          version=$(node -p "require('./lerna.json').version")
+          echo "LERNA_VERSION=$version" >> "$GITHUB_OUTPUT"
 
       # On manual workflow dispatch release stable version
       - name: Release version
