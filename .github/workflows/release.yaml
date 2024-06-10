@@ -101,9 +101,6 @@ jobs:
             pnpm release ${{ inputs.release-type }} --force-publish --no-private --yes
           fi
 
-          version=$(node -p "require('./lerna.json').version")
-          echo "LERNA_VERSION=$version" >> "$GITHUB_OUTPUT"
-
       # On manual workflow dispatch release stable version
       - name: Release version
         env:
