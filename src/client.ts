@@ -1,11 +1,11 @@
 import {
-  CredentialTemplatesService,
   OpenAPI,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
   ProjectProfileService,
   ProjectsService,
+  SdJwtVcCredentialTemplatesService,
   WebhooksService,
 } from '../generated'
 
@@ -14,7 +14,7 @@ export default class Paradym {
   projectProfile: typeof ProjectProfileService
   webhooks: typeof WebhooksService
   templates: {
-    credentials: typeof CredentialTemplatesService
+    credentials: typeof SdJwtVcCredentialTemplatesService
     presentations: typeof PresentationTemplatesService
   }
   openId4Vc: {
@@ -34,7 +34,7 @@ export default class Paradym {
     this.webhooks = WebhooksService
 
     this.templates = {
-      credentials: CredentialTemplatesService,
+      credentials: SdJwtVcCredentialTemplatesService,
       presentations: PresentationTemplatesService,
     }
     this.openId4Vc = {
