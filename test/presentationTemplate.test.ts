@@ -1,12 +1,12 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import dotenv from 'dotenv'
-import { Client } from '../src/client'
+import Paradym from '../src/client'
 dotenv.config()
 
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplatesPaginated({
       projectId: 'clwt6e610000101s69ubga6lk',
     })
@@ -16,7 +16,7 @@ describe('Presentation Template', () => {
   })
 
   it('should return a SdJwtVc presentation template', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const sdJwtPresentationTemplate = await client.templates.presentations.getPresentationTemplate({
       projectId: 'clwt6e610000101s69ubga6lk',
       presentationTemplateId: 'clwyt7ed60022yylmit88dkom',
@@ -26,7 +26,7 @@ describe('Presentation Template', () => {
   })
 
   it('should create a SdJwtVc presentation template', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       projectId: 'clwt6e610000101s69ubga6lk',
       requestBody: {
@@ -62,7 +62,7 @@ describe('Presentation Template', () => {
   })
 
   it('should archive a SdJwtVc presentation template', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       projectId: 'clwt6e610000101s69ubga6lk',
       requestBody: {
@@ -118,7 +118,7 @@ describe('Presentation Template', () => {
   })
 
   it('should update a SdJwtVc presentation template', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const sdJwtPresentationTemplate = await client.templates.presentations.updatePresentationTemplate({
       projectId: 'clwt6e610000101s69ubga6lk',
       presentationTemplateId: 'clwyt7ed60022yylmit88dkom',

@@ -1,12 +1,12 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import dotenv from 'dotenv'
-import { Client } from '../src/client'
+import Paradym from '../src/client'
 dotenv.config()
 
 describe('Webhooks', () => {
   it('should return all webhooks', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const webhooks = await client.webhooks.getWebhooks({
       projectId: 'clwt6e610000101s69ubga6lk',
     })
@@ -16,7 +16,7 @@ describe('Webhooks', () => {
   })
 
   it('should create and delete a webhook', async () => {
-    const client = new Client({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
     const createdWebhook = await client.webhooks.createWebhook({
       projectId: 'clwt6e610000101s69ubga6lk',
       requestBody: {
