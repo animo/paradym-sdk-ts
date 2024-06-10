@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "type": "module",
   "license": "Apache-2.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "generate": "openapi-ts",
     "build": "pnpm generate && tsc",
