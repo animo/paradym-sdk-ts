@@ -7,12 +7,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "build",
-    "package.json",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["build", "package.json", "README.md", "LICENSE"],
   "scripts": {
     "generate": "openapi-ts",
     "build": "pnpm generate && tsc",
