@@ -23,12 +23,10 @@ export default class Paradym {
   projectProfile: typeof ProjectProfileService
   webhooks: typeof WebhooksService
   templates: {
-    sdJwtVc: {
-      credentials: typeof SdJwtVcCredentialTemplatesService
-      presentations: typeof PresentationTemplatesService
-    }
-    anoncreds: {
-      credentials: typeof AnoncredsCredentialTemplatesService
+    presentations: typeof PresentationTemplatesService,
+    credentials: {
+      sdJwtVc: typeof SdJwtVcCredentialTemplatesService,
+      anoncreds: typeof AnoncredsCredentialTemplatesService
     }
   }
 
