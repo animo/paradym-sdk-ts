@@ -1,21 +1,21 @@
 import {
+  AnoncredsCredentialTemplatesService,
+  DiDsService,
+  DidCommConnectionsService,
+  DidCommInvitationsService,
+  DidCommIssuanceService,
+  DidCommMessagingService,
+  DidCommVerificationService,
+  IssuanceService,
   OpenAPI,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
   ProjectProfileService,
   ProjectsService,
+  RevocationService,
   SdJwtVcCredentialTemplatesService,
   WebhooksService,
-  RevocationService,
-  DidCommIssuanceService,
-  DidCommVerificationService,
-  IssuanceService,
-  DidCommMessagingService,
-  DidCommConnectionsService,
-  DidCommInvitationsService,
-  DiDsService,
-  AnoncredsCredentialTemplatesService
 } from '../generated'
 
 export default class Paradym {
@@ -26,7 +26,7 @@ export default class Paradym {
     sdJwtVc: {
       credentials: typeof SdJwtVcCredentialTemplatesService
       presentations: typeof PresentationTemplatesService
-    },
+    }
     anoncreds: {
       credentials: typeof AnoncredsCredentialTemplatesService
     }
@@ -67,7 +67,7 @@ export default class Paradym {
       },
       anoncreds: {
         credentials: AnoncredsCredentialTemplatesService,
-      }
+      },
     }
     this.openId4Vc = {
       issuance: OpenId4VcIssuanceService,
