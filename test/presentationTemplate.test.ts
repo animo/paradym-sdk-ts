@@ -7,7 +7,7 @@ dotenv.config()
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
     const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
-    const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplatesPaginated({
+    const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplates({
       projectId: 'clwt6e610000101s69ubga6lk',
     })
 

@@ -1,10 +1,19 @@
 import {
+  AnoncredsCredentialTemplatesService,
+  DiDsService,
+  DidCommConnectionsService,
+  DidCommInvitationsService,
+  DidCommIssuanceService,
+  DidCommMessagingService,
+  DidCommVerificationService,
+  IssuanceService,
   OpenAPI,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
   ProjectProfileService,
   ProjectsService,
+  RevocationService,
   SdJwtVcCredentialTemplatesService,
   WebhooksService,
 } from '../generated'
@@ -14,13 +23,29 @@ export default class Paradym {
   projectProfile: typeof ProjectProfileService
   webhooks: typeof WebhooksService
   templates: {
-    credentials: typeof SdJwtVcCredentialTemplatesService
     presentations: typeof PresentationTemplatesService
+    credentials: {
+      sdJwtVc: typeof SdJwtVcCredentialTemplatesService
+      anoncreds: typeof AnoncredsCredentialTemplatesService
+    }
   }
+
   openId4Vc: {
     issuance: typeof OpenId4VcIssuanceService
     verification: typeof OpenId4VcVerificationService
   }
+
+  didComm: {
+    issuance: typeof DidCommIssuanceService
+    verification: typeof DidCommVerificationService
+    messaging: typeof DidCommMessagingService
+    connections: typeof DidCommConnectionsService
+    invitations: typeof DidCommInvitationsService
+  }
+
+  revocation: typeof RevocationService
+  issuance: typeof IssuanceService
+  dids: typeof DiDsService
 
   constructor({ apiKey, baseUrl = 'https://api.paradym.id' }: { apiKey: string; baseUrl?: string }) {
     OpenAPI.HEADERS = {
@@ -34,13 +59,29 @@ export default class Paradym {
     this.webhooks = WebhooksService
 
     this.templates = {
-      credentials: SdJwtVcCredentialTemplatesService,
       presentations: PresentationTemplatesService,
+      credentials: {
+        sdJwtVc: SdJwtVcCredentialTemplatesService,
+        anoncreds: AnoncredsCredentialTemplatesService,
+      },
     }
+
     this.openId4Vc = {
       issuance: OpenId4VcIssuanceService,
       verification: OpenId4VcVerificationService,
     }
+
+    this.didComm = {
+      issuance: DidCommIssuanceService,
+      verification: DidCommVerificationService,
+      messaging: DidCommMessagingService,
+      connections: DidCommConnectionsService,
+      invitations: DidCommInvitationsService,
+    }
+
+    this.revocation = RevocationService
+    this.issuance = IssuanceService
+    this.dids = DiDsService
   }
 }
 
