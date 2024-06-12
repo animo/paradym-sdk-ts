@@ -1,6 +1,6 @@
 <p align="center">
 <div align="center">
-   <img src="assets/icon.png" alt="Paradym Logo" height="176px" />
+   <img src="https://raw.githubusercontent.com/animo/paradym-sdk-ts/main/assets/icon.png" alt="Paradym Logo" height="176px" />
 </div>
 <h1 align="center"><b>Paradym TypeScript SDK</b></h1>
 </p>
