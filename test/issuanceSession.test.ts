@@ -7,7 +7,7 @@ dotenv.config()
 describe('Issuance Session', () => {
   it('should return all issuance sessions', async () => {
     const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
-    const issuanceSessions = await client.openId4Vc.issuance.getAllOpenId4VcIssuanceSessions({
+    const issuanceSessions = await client.openId4Vc.issuance.getAllIssuanceSessions({
       projectId: 'clwt6e610000101s69ubga6lk',
     })
 

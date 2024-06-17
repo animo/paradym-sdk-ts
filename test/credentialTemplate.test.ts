@@ -17,7 +17,7 @@ describe('Credential Template', () => {
 
   it('should return a SdJwtVc credential template', async () => {
     const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
-    const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getSdJwtVcTemplate({
+    const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getCredentialTemplate({
       projectId: 'clwt6e610000101s69ubga6lk',
       credentialTemplateId: 'clwyt70o50021yylmethefm27',
     })

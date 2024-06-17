@@ -14,8 +14,8 @@ devDependencies:
     specifier: 1.7.3
     version: 1.7.3
   '@hey-api/openapi-ts':
-    specifier: ^0.46.3
-    version: 0.46.3(typescript@5.4.5)
+    specifier: ^0.47.0
+    version: 0.47.0(typescript@5.4.5)
   '@types/node':
     specifier: ^20.12.6
     version: 20.12.6
@@ -34,8 +34,8 @@ devDependencies:
 
 packages:
 
-  /@apidevtools/json-schema-ref-parser@11.6.2:
-    resolution: {integrity: sha512-ENUdLLT04aDbbHCRwfKf8gR67AhV0CdFrOAtk+FcakBAgaq6ds3HLK9X0BCyiFUz8pK9uP+k6YZyJaGG7Mt7vQ==}
+  /@apidevtools/json-schema-ref-parser@11.6.4:
+    resolution: {integrity: sha512-9K6xOqeevacvweLGik6LnZCb1fBtCOSIWQs8d096XGeqoLKC33UVMGz9+77Gw44KvbH4pKcQPWo4ZpxkXYj05w==}
     engines: {node: '>= 16'}
     dependencies:
       '@jsdevtools/ono': 7.1.3
@@ -361,14 +361,14 @@ packages:
     dev: true
     optional: true
 
-  /@hey-api/openapi-ts@0.46.3(typescript@5.4.5):
-    resolution: {integrity: sha512-2C0tmzUq6m9518uDMHBooqiS7wvWy9UD6SepudWU+9fB6lZvC+yxbK/viaMfwvCv4l1hKuBZZZQNP0xrNcyRsQ==}
+  /@hey-api/openapi-ts@0.47.0(typescript@5.4.5):
+    resolution: {integrity: sha512-dppZcULGVkTBNT4FrRRIPYS5oo1lHMkp0P6/qqW0A1tP+l5jXwkOlyeahJs6Kq0mbyoYmv2gK8BKbvDq/3yyNQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
       typescript: ^5.x
     dependencies:
-      '@apidevtools/json-schema-ref-parser': 11.6.2
+      '@apidevtools/json-schema-ref-parser': 11.6.4
       c12: 1.10.0
       camelcase: 8.0.0
       commander: 12.1.0
@@ -755,13 +755,6 @@ packages:
       concat-map: 0.0.1
     dev: true
 
-  /braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
-    engines: {node: '>=8'}
-    dependencies:
-      fill-range: 7.0.1
-    dev: true
-
   /braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
@@ -875,7 +868,7 @@ packages:
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -1430,13 +1423,6 @@ packages:
     dependencies:
       node-domexception: 1.0.0
       web-streams-polyfill: 3.3.3
-    dev: true
-
-  /fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
-    engines: {node: '>=8'}
-    dependencies:
-      to-regex-range: 5.0.1
     dev: true
 
   /fill-range@7.1.1:
