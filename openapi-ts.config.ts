@@ -1,4 +1,4 @@
-import { type UserConfig } from '@hey-api/openapi-ts'
+import type { UserConfig } from '@hey-api/openapi-ts'
 
 const config: UserConfig = {
   input: process.env.SERVER ?? 'https://api.paradym.id/openapi-docs.json',
