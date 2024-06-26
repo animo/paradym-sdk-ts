@@ -35,7 +35,7 @@ export default class Paradym {
     verification: typeof OpenId4VcVerificationService
   }
 
-  didComm: {
+  didcomm: {
     issuance: typeof DidCommIssuanceService
     verification: typeof DidCommVerificationService
     messaging: typeof DidCommMessagingService
@@ -71,7 +71,7 @@ export default class Paradym {
       verification: OpenId4VcVerificationService,
     }
 
-    this.didComm = {
+    this.didcomm = {
       issuance: DidCommIssuanceService,
       verification: DidCommVerificationService,
       messaging: DidCommMessagingService,
