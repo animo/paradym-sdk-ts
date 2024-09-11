@@ -94,15 +94,10 @@ jobs:
         id: publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ ${{ inputs.release-type }} == 'alpha' ]; then
             pnpm release prerelease --yes
           else
             pnpm release ${{ inputs.release-type }} --force-publish --no-private --yes
           fi
-
-      # On manual workflow dispatch release stable version
-      - name: Release version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm release ${{ github.event.inputs.releaseType }}
