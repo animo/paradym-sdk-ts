@@ -1,13 +1,14 @@
 import {
   AnoncredsCredentialTemplatesService,
-  DiDsService,
   DidCommConnectionsService,
   DidCommInvitationsService,
   DidCommIssuanceService,
+  DidCommMediatorsService,
   DidCommMessagingService,
   DidCommVerificationService,
-  IssuanceService,
-  OpenAPI,
+  DidsService,
+  DirectIssuanceService,
+  IssuedCredentialsService,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
@@ -15,8 +16,10 @@ import {
   ProjectsService,
   RevocationService,
   SdJwtVcCredentialTemplatesService,
+  TrustedEntitiesService,
   WebhooksService,
 } from '../generated'
+import { client } from '../generated/client.gen'
 
 export default class Paradym {
   projects: typeof ProjectsService
@@ -41,18 +44,23 @@ export default class Paradym {
     messaging: typeof DidCommMessagingService
     connections: typeof DidCommConnectionsService
     invitations: typeof DidCommInvitationsService
+    mediators: typeof DidCommMediatorsService
   }
 
+  trustedEntities: typeof TrustedEntitiesService
+  dids: typeof DidsService
+
   revocation: typeof RevocationService
-  issuance: typeof IssuanceService
-  dids: typeof DiDsService
+  directIssuance: typeof DirectIssuanceService
+  issuedCredentials: typeof IssuedCredentialsService
 
   constructor({ apiKey, baseUrl = 'https://api.paradym.id' }: { apiKey: string; baseUrl?: string }) {
-    OpenAPI.HEADERS = {
-      'x-access-token': apiKey,
-    }
-
-    OpenAPI.BASE = baseUrl
+    client.setConfig({
+      baseUrl,
+      headers: {
+        'x-access-token': apiKey,
+      },
+    })
 
     this.projects = ProjectsService
     this.projectProfile = ProjectProfileService
@@ -77,11 +85,15 @@ export default class Paradym {
       messaging: DidCommMessagingService,
       connections: DidCommConnectionsService,
       invitations: DidCommInvitationsService,
+      mediators: DidCommMediatorsService,
     }
 
+    this.dids = DidsService
+    this.trustedEntities = TrustedEntitiesService
+
     this.revocation = RevocationService
-    this.issuance = IssuanceService
-    this.dids = DiDsService
+    this.directIssuance = DirectIssuanceService
+    this.issuedCredentials = IssuedCredentialsService
   }
 }
 

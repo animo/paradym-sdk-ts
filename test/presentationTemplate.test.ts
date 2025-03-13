@@ -1,41 +1,47 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
-import dotenv from 'dotenv'
 import Paradym from '../src/client'
-dotenv.config()
+import { PRESENTATION_TEMPLATE_ID, PROJECT_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplates({
-      projectId: 'clwt6e610000101s69ubga6lk',
+      path: {
+        projectId: PROJECT_ID,
+      },
     })
 
-    assert.ok(Array.isArray(sdJwtPresentationTemplates.data))
+    assert.ok(Array.isArray(sdJwtPresentationTemplates.data.data))
     assert.ok(sdJwtPresentationTemplates)
   })
 
   it('should return a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.getPresentationTemplate({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      presentationTemplateId: 'clwyt7ed60022yylmit88dkom',
+      path: {
+        projectId: PROJECT_ID,
+        presentationTemplateId: PRESENTATION_TEMPLATE_ID,
+      },
     })
 
     assert.ok(sdJwtPresentationTemplate)
   })
 
   it('should create a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      requestBody: {
+      path: {
+        projectId: PROJECT_ID,
+      },
+      body: {
         credentials: [
           {
             description: 'This is a description',
             name: 'My SD-JWT VC credential',
             format: 'sd-jwt-vc',
             type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
+            trustedIssuers: [],
             attributes: {
               myAttribute1: {
                 type: 'string',
@@ -62,16 +68,19 @@ describe('Presentation Template', () => {
   })
 
   it('should archive a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      requestBody: {
+      path: {
+        projectId: PROJECT_ID,
+      },
+      body: {
         credentials: [
           {
             description: 'This is a description',
             name: 'My SD-JWT VC credential',
             format: 'sd-jwt-vc',
             type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
+            trustedIssuers: [],
             attributes: {
               myAttribute1: {
                 type: 'string',
@@ -97,38 +106,50 @@ describe('Presentation Template', () => {
     assert.ok(sdJwtPresentationTemplate)
 
     await client.templates.presentations.archivePresentationTemplate({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      presentationTemplateId: sdJwtPresentationTemplate.id,
+      path: {
+        projectId: PROJECT_ID,
+        presentationTemplateId: sdJwtPresentationTemplate.data.id,
+      },
     })
 
     const actualFn = async () =>
       client.templates.presentations.getPresentationTemplate({
-        projectId: 'clwt6e610000101s69ubga6lk',
-        presentationTemplateId: sdJwtPresentationTemplate.id,
+        path: {
+          projectId: PROJECT_ID,
+          presentationTemplateId: sdJwtPresentationTemplate.data.id,
+        },
       })
 
     const expected = {
-      name: 'ApiError',
-      url: `https://api.paradym.id/v1/projects/clwt6e610000101s69ubga6lk/templates/presentations/${sdJwtPresentationTemplate.id}`,
-      status: 404,
-      statusText: 'Not Found',
+      message: `PresentationTemplate with ID ${sdJwtPresentationTemplate.data.id} not found.`,
+      details: [
+        {
+          message: `PresentationTemplate with ID ${sdJwtPresentationTemplate.data.id} not found.`,
+          recordType: 'PresentationTemplate',
+          recordId: sdJwtPresentationTemplate.data.id,
+        },
+      ],
+      code: 2005,
     }
 
-    assert.rejects(actualFn, expected)
+    await assert.rejects(actualFn, expected)
   })
 
   it('should update a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.updatePresentationTemplate({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      presentationTemplateId: 'clwyt7ed60022yylmit88dkom',
-      requestBody: {
+      path: {
+        projectId: PROJECT_ID,
+        presentationTemplateId: PRESENTATION_TEMPLATE_ID,
+      },
+      body: {
         credentials: [
           {
             description: 'This is a description',
             name: 'My SD-JWT VC credential',
             format: 'sd-jwt-vc',
             type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
+            trustedIssuers: [],
             attributes: {
               myAttribute1: {
                 type: 'string',

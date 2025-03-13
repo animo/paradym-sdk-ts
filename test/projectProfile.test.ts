@@ -1,24 +1,23 @@
 import { strict as assert } from 'node:assert'
 import { describe, it } from 'node:test'
-import dotenv from 'dotenv'
 import Paradym from '../src/client'
-dotenv.config()
+import { PROJECT_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Project Profile', () => {
   it('should return project profile', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const projectProfile = await client.projectProfile.getProfile({
-      projectId: 'clwt6e610000101s69ubga6lk',
+      path: { projectId: PROJECT_ID },
     })
 
     assert.ok(projectProfile)
   })
 
   it('should update project profile', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const updatedProjectProfile = await client.projectProfile.updateProfile({
-      projectId: 'clwt6e610000101s69ubga6lk',
-      requestBody: {
+      path: { projectId: PROJECT_ID },
+      body: {
         displayName: 'Animo',
         logo: {
           altText: 'Logo of Animo Solutions',

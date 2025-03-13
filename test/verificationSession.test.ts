@@ -1,17 +1,18 @@
 import { strict as assert } from 'node:assert'
 import { describe, it } from 'node:test'
-import dotenv from 'dotenv'
 import Paradym from '../src/client'
-dotenv.config()
+import { PROJECT_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Verification Session', () => {
   it('should return all issuance sessions', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const verificationSessions = await client.openId4Vc.verification.getAllVerificationSessions({
-      projectId: 'clwt6e610000101s69ubga6lk',
+      path: {
+        projectId: PROJECT_ID,
+      },
     })
 
     assert.ok(verificationSessions)
-    assert.ok(Array.isArray(verificationSessions.data))
+    assert.ok(Array.isArray(verificationSessions.data.data))
   })
 })

@@ -1,16 +1,17 @@
 import { strict as assert } from 'node:assert'
 import { describe, it } from 'node:test'
-import dotenv from 'dotenv'
 import Paradym from '../src/client'
-dotenv.config()
+import { X_ACCESS_TOKEN } from './constants'
 
 describe('Projects', () => {
   it('should return atleast one project', async () => {
-    const client = new Paradym({ apiKey: process.env.X_ACCESS_TOKEN as string })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const projects = await client.projects.getAllProjects({
-      sort: '-createdAt',
+      query: {
+        sort: '-createdAt',
+      },
     })
 
-    assert.ok(projects.data.length > 0)
+    assert.ok(projects.data.data.length > 0)
   })
 })
