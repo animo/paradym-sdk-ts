@@ -1,8 +1,8 @@
 import { strict as assert } from 'node:assert'
+import { randomUUID } from 'node:crypto'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
 import { PROJECT_ID, X_ACCESS_TOKEN } from './constants'
-import { randomUUID } from 'node:crypto'
 
 describe('Trusted Entities', () => {
   it('can create and resolve trusted entity', async () => {
