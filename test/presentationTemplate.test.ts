@@ -67,7 +67,7 @@ describe('Presentation Template', () => {
     assert.ok(sdJwtPresentationTemplate)
   })
 
-  it('should archive a SdJwtVc presentation template', async () => {
+  it('should create a SdJwtVc and mDOC presentation template', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       path: {
@@ -75,6 +75,20 @@ describe('Presentation Template', () => {
       },
       body: {
         credentials: [
+          {
+            description: 'This is a description',
+            name: 'My Mdoc credential',
+            format: 'mdoc',
+            type: 'org.iso.18013.5.1.mDL',
+            trustedIssuers: [],
+            attributes: {
+              'org.iso.18013.5.1': {
+                properties: {
+                  given_name: {},
+                },
+              },
+            },
+          },
           {
             description: 'This is a description',
             name: 'My SD-JWT VC credential',
@@ -99,7 +113,60 @@ describe('Presentation Template', () => {
           },
         ],
         description: 'This is a description',
-        name: 'My SD-JWT VC presentation',
+        name: 'My SD-JWT VC and mdoc presentation',
+      },
+    })
+
+    assert.ok(sdJwtPresentationTemplate.data)
+  })
+
+  it('should archive a SdJwtVc presentation template', async () => {
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
+    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+      path: {
+        projectId: PROJECT_ID,
+      },
+      body: {
+        credentials: [
+          {
+            description: 'This is a description',
+            name: 'My Mdoc credential',
+            format: 'mdoc',
+            type: 'org.iso.18013.5.1.mDL',
+            trustedIssuers: [],
+            attributes: {
+              'org.iso.18013.5.1': {
+                properties: {
+                  given_name: {},
+                },
+              },
+            },
+          },
+          {
+            description: 'This is a description',
+            name: 'My SD-JWT VC credential',
+            format: 'sd-jwt-vc',
+            type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
+            trustedIssuers: [],
+            attributes: {
+              myAttribute1: {
+                type: 'string',
+                value: 'myValue',
+              },
+              myAttribute2: {
+                type: 'number',
+                minimum: 1,
+                maximum: 10,
+              },
+              myAttribute3: {
+                type: 'boolean',
+                value: true,
+              },
+            },
+          },
+        ],
+        description: 'This is a description',
+        name: 'My SD-JWT VC and mdoc presentation',
       },
     })
 
