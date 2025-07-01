@@ -31,24 +31,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
 
-      - name: Setup Biome CLI
-        uses: biomejs/setup-biome@v2
-        with:
-          version: latest
-
-      - name: Run Biome
-        run: biome ci .
-
       - name: Install dependencies
         run: pnpm install
 
-      - name: Generate output files
-        env:
-          SERVER: https://api.paradym.id/openapi.json
-        run: pnpm generate
+      - name: Run Biome
+        run: pnpm style
 
       - name: Build packages
         run: pnpm build
+        env:
+          SERVER: https://api.paradym.id/openapi.json
+
   release:
     runs-on: ubuntu-latest
     name: Release
