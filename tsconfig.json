@@ -6,11 +6,11 @@
     "sourceMap": true,
     "strict": true,
     "noEmitOnError": true,
-    "lib": ["ES2015", "DOM"],
-    "types": ["node"],
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "build"

@@ -36,7 +36,7 @@ async function run() {
       {
         name: '@hey-api/sdk',
         asClass: true,
-
+        classNameBuilder: (name) => `${name}Service`,
         methodNameBuilder(operation) {
           if (!operation.id) throw new Error('Missing operation id')
           const tag = tagForOperation(openapi, operation.id)

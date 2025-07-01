@@ -1,5 +1,6 @@
 import {
   AnoncredsCredentialTemplatesService,
+  CertificatesService,
   DidCommConnectionsService,
   DidCommInvitationsService,
   DidCommIssuanceService,
@@ -49,6 +50,7 @@ export default class Paradym {
 
   trustedEntities: typeof TrustedEntitiesService
   dids: typeof DidsService
+  certificates: typeof CertificatesService
 
   revocation: typeof RevocationService
   directIssuance: typeof DirectIssuanceService
@@ -90,6 +92,7 @@ export default class Paradym {
 
     this.dids = DidsService
     this.trustedEntities = TrustedEntitiesService
+    this.certificates = CertificatesService
 
     this.revocation = RevocationService
     this.directIssuance = DirectIssuanceService
