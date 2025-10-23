@@ -31,6 +31,8 @@ async function run() {
     output: {
       format: 'biome',
       path: 'generated',
+      // Need to wait for next release to support ESM
+      // importFileExtension: '.js',
     },
     plugins: [
       {

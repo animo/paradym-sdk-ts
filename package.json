@@ -8,26 +8,34 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["build", "package.json", "README.md", "LICENSE"],
+  "files": [
+    "build",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "generate": "tsx generate-client",
     "build": "pnpm generate && tsc",
-    "style": "biome check .",
-    "style:fix": "biome check . --apply-unsafe",
+    "style": "biome check --unsafe",
+    "style:fix": "biome check --write --unsafe",
     "release": "release-it",
     "test": "npx tsx -r dotenv/config --test test/**"
   },
   "dependencies": {
-    "@noble/hashes": "^1.8.0"
+    "@noble/hashes": "^2.0.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
+    "@biomejs/biome": "2.2.7",
     "@hey-api/openapi-ts": "^0.77.0",
-    "@types/node": "^20.12.6",
-    "dotenv": "^17.0.0",
-    "release-it": "^17.3.0",
-    "tsx": "^4.20.3",
-    "typescript": "~5.8.3"
+    "@types/node": "^24.9.1",
+    "dotenv": "^17.2.3",
+    "release-it": "^19.0.5",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.3"
   },
-  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b"
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d"
 }
