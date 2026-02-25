@@ -14,6 +14,9 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "url": "https://github.com/animo/paradym-sdk-ts"
+  },
   "scripts": {
     "generate": "tsx generate-client",
     "build": "pnpm generate && tsc",
