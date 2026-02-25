@@ -1,5 +1,8 @@
 import {
   AnoncredsCredentialTemplatesService,
+  AttributeProvidersService,
+  AuthorizationServersService,
+  CertificateSigningRequestsService,
   CertificatesService,
   DidCommConnectionsService,
   DidCommInvitationsService,
@@ -10,6 +13,7 @@ import {
   DidsService,
   DirectIssuanceService,
   IssuedCredentialsService,
+  MDocCredentialTemplatesService,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
@@ -30,6 +34,7 @@ export default class Paradym {
     presentations: typeof PresentationTemplatesService
     credentials: {
       sdJwtVc: typeof SdJwtVcCredentialTemplatesService
+      mdoc: typeof MDocCredentialTemplatesService
       anoncreds: typeof AnoncredsCredentialTemplatesService
     }
   }
@@ -51,10 +56,14 @@ export default class Paradym {
   trustedEntities: typeof TrustedEntitiesService
   dids: typeof DidsService
   certificates: typeof CertificatesService
+  certificateSigningRequests: typeof CertificateSigningRequestsService
 
   revocation: typeof RevocationService
   directIssuance: typeof DirectIssuanceService
   issuedCredentials: typeof IssuedCredentialsService
+
+  authorizationServers: typeof AuthorizationServersService
+  attributeProviders: typeof AttributeProvidersService
 
   constructor({ apiKey, baseUrl = 'https://api.paradym.id' }: { apiKey: string; baseUrl?: string }) {
     client.setConfig({
@@ -72,6 +81,7 @@ export default class Paradym {
       presentations: PresentationTemplatesService,
       credentials: {
         sdJwtVc: SdJwtVcCredentialTemplatesService,
+        mdoc: MDocCredentialTemplatesService,
         anoncreds: AnoncredsCredentialTemplatesService,
       },
     }
@@ -93,10 +103,14 @@ export default class Paradym {
     this.dids = DidsService
     this.trustedEntities = TrustedEntitiesService
     this.certificates = CertificatesService
+    this.certificateSigningRequests = CertificateSigningRequestsService
 
     this.revocation = RevocationService
     this.directIssuance = DirectIssuanceService
     this.issuedCredentials = IssuedCredentialsService
+
+    this.authorizationServers = AuthorizationServersService
+    this.attributeProviders = AttributeProvidersService
   }
 }
 
