@@ -21,7 +21,7 @@ describe('Project Profile', () => {
         displayName: 'Animo',
         logo: {
           altText: 'Logo of Animo Solutions',
-          url: 'https://example.com/logo.png',
+          url: 'https://github.com/animo.png',
         },
       },
     })
