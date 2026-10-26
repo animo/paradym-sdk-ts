@@ -1,18 +1,17 @@
 import { createClient } from '@hey-api/openapi-ts'
 
-function tagForOperation(
-  openapi: {
-    paths: {
-      [path: string]: {
-        [method: string]: {
-          operationId: string
-          tags: [string]
-        }
+type OpenApi = {
+  paths: {
+    [path: string]: {
+      [method: string]: {
+        operationId: string
+        tags: [string]
       }
     }
-  },
-  operationId: string
-) {
+  }
+}
+
+function tagForOperation(openapi: OpenApi, operationId: string) {
   for (const path of Object.values(openapi.paths)) {
     for (const method of Object.values(path)) {
       if (method.operationId.toLowerCase() === operationId.toLowerCase()) {
@@ -23,14 +22,14 @@ function tagForOperation(
   throw new Error(`Did not find operation ${operationId}`)
 }
 
-async function run() {
-  const openapi = await (await fetch(process.env.SERVER ?? 'https://api.paradym.id/openapi.json')).json()
+async function generate(url: string, path: string) {
+  const openapi: OpenApi = await (await fetch(url)).json()
 
-  createClient({
+  await createClient({
     input: openapi,
     output: {
       format: 'biome',
-      path: 'generated',
+      path,
       // Need to wait for next release to support ESM
       // importFileExtension: '.js',
     },
@@ -59,6 +58,14 @@ async function run() {
       { name: '@hey-api/client-fetch', throwOnError: true },
     ],
   })
+}
+
+async function run() {
+  // The wallets API (/v1/wallets)
+  await generate(process.env.SERVER ?? 'https://api.paradym.id/openapi.json', 'generated/wallets')
+
+  // The deprecated projects API (/v1/projects), a frozen snapshot from before the project to wallet rename
+  await generate(process.env.SERVER_PROJECTS ?? 'https://api.paradym.id/openapi-deprecated.json', 'generated/projects')
 }
 
 run()

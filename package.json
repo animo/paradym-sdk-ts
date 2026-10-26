@@ -3,6 +3,24 @@
   "version": "0.0.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./projects": {
+      "types": "./build/projects.d.ts",
+      "default": "./build/projects.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "projects": [
+        "build/projects.d.ts"
+      ]
+    }
+  },
   "license": "Apache-2.0",
   "private": false,
   "publishConfig": {

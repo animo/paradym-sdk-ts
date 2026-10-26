@@ -1,14 +1,14 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
-import { PRESENTATION_TEMPLATE_ID, PROJECT_ID, X_ACCESS_TOKEN } from './constants'
+import { PRESENTATION_TEMPLATE_ID, WALLET_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplates({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
       },
     })
 
@@ -20,7 +20,7 @@ describe('Presentation Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.getPresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
         presentationTemplateId: PRESENTATION_TEMPLATE_ID,
       },
     })
@@ -32,7 +32,7 @@ describe('Presentation Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
       },
       body: {
         credentials: [
@@ -71,7 +71,7 @@ describe('Presentation Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
       },
       body: {
         credentials: [
@@ -124,7 +124,7 @@ describe('Presentation Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
       },
       body: {
         credentials: [
@@ -174,7 +174,7 @@ describe('Presentation Template', () => {
 
     await client.templates.presentations.archivePresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
         presentationTemplateId: sdJwtPresentationTemplate.data.id,
       },
     })
@@ -182,7 +182,7 @@ describe('Presentation Template', () => {
     const actualFn = async () =>
       client.templates.presentations.getPresentationTemplate({
         path: {
-          projectId: PROJECT_ID,
+          walletId: WALLET_ID,
           presentationTemplateId: sdJwtPresentationTemplate.data.id,
         },
       })
@@ -206,7 +206,7 @@ describe('Presentation Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtPresentationTemplate = await client.templates.presentations.updatePresentationTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
         presentationTemplateId: PRESENTATION_TEMPLATE_ID,
       },
       body: {
