@@ -1,12 +1,12 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
-import { WALLET_ID, X_ACCESS_TOKEN } from './constants'
+import { BASE_URL, WALLET_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Webhooks', () => {
   it('should return all webhooks', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const webhooks = await client.webhooks.getWebhooks({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const webhooks = await client.webhooks.subscriptions.getWebhooks({
       path: {
         walletId: WALLET_ID,
       },
@@ -17,8 +17,8 @@ describe('Webhooks', () => {
   })
 
   it('should create and delete a webhook', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const createdWebhook = await client.webhooks.createWebhook({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const createdWebhook = await client.webhooks.subscriptions.createWebhook({
       path: {
         walletId: WALLET_ID,
       },
@@ -30,19 +30,76 @@ describe('Webhooks', () => {
 
     assert.ok(createdWebhook)
 
-    await client.webhooks.deleteWebhook({
+    await client.webhooks.subscriptions.deleteWebhook({
       path: {
         walletId: WALLET_ID,
-        webhookId: createdWebhook.data.id,
+        webhookSubscriptionId: createdWebhook.data.id,
       },
     })
 
-    const { data } = await client.webhooks.getWebhooks({
+    const { data } = await client.webhooks.subscriptions.getWebhooks({
       path: {
         walletId: WALLET_ID,
       },
     })
 
     assert.strictEqual(data.data.filter((webhook) => webhook.id === createdWebhook.data.id).length, 0)
+  })
+
+  it('should return no deliveries for a new webhook', async () => {
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const webhook = await client.webhooks.subscriptions.createWebhook({
+      path: {
+        walletId: WALLET_ID,
+      },
+      body: {
+        name: 'Test Webhook',
+        url: 'https://example.com/webhook',
+      },
+    })
+
+    try {
+      const deliveries = await client.webhooks.deliveries.getWebhookDeliveries({
+        path: {
+          walletId: WALLET_ID,
+        },
+        query: {
+          'filter[webhookSubscriptionId]': webhook.data.id,
+        },
+      })
+
+      assert.deepStrictEqual(deliveries.data.data, [])
+
+      const summary = await client.webhooks.deliveries.getWebhookDeliverySummary({
+        path: {
+          walletId: WALLET_ID,
+        },
+        query: {
+          'filter[webhookSubscriptionId]': webhook.data.id,
+        },
+      })
+
+      assert.strictEqual(summary.data.pending, 0)
+      assert.strictEqual(summary.data.delivered, 0)
+      assert.strictEqual(summary.data.failed, 0)
+
+      const redeliverResult = await client.webhooks.deliveries.redeliverWebhookDeliveries({
+        path: {
+          walletId: WALLET_ID,
+        },
+        body: {
+          webhookSubscriptionId: webhook.data.id,
+        },
+      })
+
+      assert.strictEqual(redeliverResult.data.scheduledCount, 0)
+    } finally {
+      await client.webhooks.subscriptions.deleteWebhook({
+        path: {
+          walletId: WALLET_ID,
+          webhookSubscriptionId: webhook.data.id,
+        },
+      })
+    }
   })
 })
