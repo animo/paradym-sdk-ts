@@ -1,11 +1,12 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
-import { SD_JWT_CREDENTIAL_TEMPLATE_ID, WALLET_ID, X_ACCESS_TOKEN } from './constants'
+import { BASE_URL, WALLET_ID, X_ACCESS_TOKEN } from './constants'
+import { archiveSdJwtCredentialTemplate, createSdJwtCredentialTemplate } from './fixtures'
 
 describe('Credential Template', () => {
   it('should return all SdJwtVc credential templates', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
     const sdJwtCredentialTemplates = await client.templates.credentials.sdJwtVc.getAllCredentialTemplates({
       path: {
         walletId: WALLET_ID,
@@ -17,14 +18,20 @@ describe('Credential Template', () => {
   })
 
   it('should return a SdJwtVc credential template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getCredentialTemplate({
-      path: {
-        walletId: WALLET_ID,
-        credentialTemplateId: SD_JWT_CREDENTIAL_TEMPLATE_ID,
-      },
-    })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const createdCredentialTemplate = await createSdJwtCredentialTemplate(client)
 
-    assert.ok(sdJwtCredentialTemplate)
+    try {
+      const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getCredentialTemplate({
+        path: {
+          walletId: WALLET_ID,
+          credentialTemplateId: createdCredentialTemplate.id,
+        },
+      })
+
+      assert.strictEqual(sdJwtCredentialTemplate.data.id, createdCredentialTemplate.id)
+    } finally {
+      await archiveSdJwtCredentialTemplate(client, createdCredentialTemplate.id)
+    }
   })
 })

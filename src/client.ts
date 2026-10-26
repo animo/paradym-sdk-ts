@@ -16,6 +16,9 @@ import {
   KeyBackendsService,
   KeysService,
   MDocCredentialTemplatesService,
+  OAuthClientRoleAssignmentsService,
+  OAuthClientSecretsService,
+  OAuthClientsService,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
@@ -24,14 +27,19 @@ import {
   TrustedEntitiesService,
   WalletProfileService,
   WalletsService,
-  WebhooksService,
+  WebhookDeliveriesService,
+  WebhookSubscriptionsService,
 } from '../generated/wallets'
 import { client } from '../generated/wallets/client.gen'
 
 export default class Paradym {
   wallets: typeof WalletsService
   walletProfile: typeof WalletProfileService
-  webhooks: typeof WebhooksService
+  webhooks: {
+    subscriptions: typeof WebhookSubscriptionsService
+    deliveries: typeof WebhookDeliveriesService
+  }
+
   templates: {
     presentations: typeof PresentationTemplatesService
     credentials: {
@@ -69,6 +77,10 @@ export default class Paradym {
   authorizationServers: typeof AuthorizationServersService
   attributeProviders: typeof AttributeProvidersService
 
+  oauthClients: typeof OAuthClientsService
+  oauthClientSecrets: typeof OAuthClientSecretsService
+  oauthClientRoleAssignments: typeof OAuthClientRoleAssignmentsService
+
   constructor({ apiKey, baseUrl = 'https://api.paradym.id' }: { apiKey: string; baseUrl?: string }) {
     client.setConfig({
       baseUrl,
@@ -79,7 +91,10 @@ export default class Paradym {
 
     this.wallets = WalletsService
     this.walletProfile = WalletProfileService
-    this.webhooks = WebhooksService
+    this.webhooks = {
+      subscriptions: WebhookSubscriptionsService,
+      deliveries: WebhookDeliveriesService,
+    }
 
     this.templates = {
       presentations: PresentationTemplatesService,
@@ -117,6 +132,10 @@ export default class Paradym {
 
     this.authorizationServers = AuthorizationServersService
     this.attributeProviders = AttributeProvidersService
+
+    this.oauthClients = OAuthClientsService
+    this.oauthClientSecrets = OAuthClientSecretsService
+    this.oauthClientRoleAssignments = OAuthClientRoleAssignmentsService
   }
 }
 
