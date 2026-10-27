@@ -1,14 +1,14 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
-import { PROJECT_ID, SD_JWT_CREDENTIAL_TEMPLATE_ID, X_ACCESS_TOKEN } from './constants'
+import { SD_JWT_CREDENTIAL_TEMPLATE_ID, WALLET_ID, X_ACCESS_TOKEN } from './constants'
 
 describe('Credential Template', () => {
   it('should return all SdJwtVc credential templates', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtCredentialTemplates = await client.templates.credentials.sdJwtVc.getAllCredentialTemplates({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
       },
     })
 
@@ -20,7 +20,7 @@ describe('Credential Template', () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
     const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getCredentialTemplate({
       path: {
-        projectId: PROJECT_ID,
+        walletId: WALLET_ID,
         credentialTemplateId: SD_JWT_CREDENTIAL_TEMPLATE_ID,
       },
     })

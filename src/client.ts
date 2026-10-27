@@ -13,22 +13,24 @@ import {
   DidsService,
   DirectIssuanceService,
   IssuedCredentialsService,
+  KeyBackendsService,
+  KeysService,
   MDocCredentialTemplatesService,
   OpenId4VcIssuanceService,
   OpenId4VcVerificationService,
   PresentationTemplatesService,
-  ProjectProfileService,
-  ProjectsService,
   RevocationService,
   SdJwtVcCredentialTemplatesService,
   TrustedEntitiesService,
+  WalletProfileService,
+  WalletsService,
   WebhooksService,
-} from '../generated'
-import { client } from '../generated/client.gen'
+} from '../generated/wallets'
+import { client } from '../generated/wallets/client.gen'
 
 export default class Paradym {
-  projects: typeof ProjectsService
-  projectProfile: typeof ProjectProfileService
+  wallets: typeof WalletsService
+  walletProfile: typeof WalletProfileService
   webhooks: typeof WebhooksService
   templates: {
     presentations: typeof PresentationTemplatesService
@@ -57,6 +59,8 @@ export default class Paradym {
   dids: typeof DidsService
   certificates: typeof CertificatesService
   certificateSigningRequests: typeof CertificateSigningRequestsService
+  keys: typeof KeysService
+  keyBackends: typeof KeyBackendsService
 
   revocation: typeof RevocationService
   directIssuance: typeof DirectIssuanceService
@@ -73,8 +77,8 @@ export default class Paradym {
       },
     })
 
-    this.projects = ProjectsService
-    this.projectProfile = ProjectProfileService
+    this.wallets = WalletsService
+    this.walletProfile = WalletProfileService
     this.webhooks = WebhooksService
 
     this.templates = {
@@ -104,6 +108,8 @@ export default class Paradym {
     this.trustedEntities = TrustedEntitiesService
     this.certificates = CertificatesService
     this.certificateSigningRequests = CertificateSigningRequestsService
+    this.keys = KeysService
+    this.keyBackends = KeyBackendsService
 
     this.revocation = RevocationService
     this.directIssuance = DirectIssuanceService

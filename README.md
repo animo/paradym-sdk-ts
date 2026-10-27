@@ -30,3 +30,18 @@
 The Paradym TypeScript SDK offers seamless integration with the [Paradym API](https://paradym.id/reference), enabling developers to interact with Paradym's features from TypeScript applications. This SDK simplifies the process of making API requests, allowing you to focus on building your application.
 
 Check out the [TypeScript SDK docs](https://docs.paradym.id/api-and-dashboard/typescript-sdk) for installation instructions and usage information.
+
+## Upgrading to 4.0
+
+Projects are now called wallets in Paradym. From 4.0, `@paradym/sdk` uses the `/v1/wallets` API:
+
+- `paradym.projects` is now `paradym.wallets`, and `paradym.projectProfile` is now `paradym.walletProfile`.
+- Path parameters use `walletId` instead of `projectId`.
+- Types are renamed to match, for example `Project` is now `Wallet` and `WebhookSubscription` is now `WalletWebhookSubscription`.
+- The package now has an `exports` map, so imports from `@paradym/sdk/build/...` no longer work. `isHmacValid` is exported from `@paradym/sdk`.
+
+To keep using the deprecated `/v1/projects` API without other changes, import the client from `@paradym/sdk/projects`. It has the same API as 3.x:
+
+```ts
+import { Paradym } from '@paradym/sdk/projects'
+```
