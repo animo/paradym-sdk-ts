@@ -24,7 +24,8 @@ import {
   TrustedEntitiesService,
   WebhooksService,
 } from '../../generated/projects'
-import { client } from '../../generated/projects/client.gen'
+import { createClient } from '../../generated/projects/client'
+import { type BoundService, bindClient } from '../utils/bindClient'
 
 /**
  * Client for the deprecated `/v1/projects` API, from before projects were renamed to wallets.
@@ -32,90 +33,91 @@ import { client } from '../../generated/projects/client.gen'
  * @deprecated Use `Paradym` from `@paradym/sdk`, which uses the `/v1/wallets` API.
  */
 export default class Paradym {
-  projects: typeof ProjectsService
-  projectProfile: typeof ProjectProfileService
-  webhooks: typeof WebhooksService
+  projects: BoundService<typeof ProjectsService>
+  projectProfile: BoundService<typeof ProjectProfileService>
+  webhooks: BoundService<typeof WebhooksService>
   templates: {
-    presentations: typeof PresentationTemplatesService
+    presentations: BoundService<typeof PresentationTemplatesService>
     credentials: {
-      sdJwtVc: typeof SdJwtVcCredentialTemplatesService
-      mdoc: typeof MDocCredentialTemplatesService
-      anoncreds: typeof AnoncredsCredentialTemplatesService
+      sdJwtVc: BoundService<typeof SdJwtVcCredentialTemplatesService>
+      mdoc: BoundService<typeof MDocCredentialTemplatesService>
+      anoncreds: BoundService<typeof AnoncredsCredentialTemplatesService>
     }
   }
 
   openId4Vc: {
-    issuance: typeof OpenId4VcIssuanceService
-    verification: typeof OpenId4VcVerificationService
+    issuance: BoundService<typeof OpenId4VcIssuanceService>
+    verification: BoundService<typeof OpenId4VcVerificationService>
   }
 
   didcomm: {
-    issuance: typeof DidCommIssuanceService
-    verification: typeof DidCommVerificationService
-    messaging: typeof DidCommMessagingService
-    connections: typeof DidCommConnectionsService
-    invitations: typeof DidCommInvitationsService
-    mediators: typeof DidCommMediatorsService
+    issuance: BoundService<typeof DidCommIssuanceService>
+    verification: BoundService<typeof DidCommVerificationService>
+    messaging: BoundService<typeof DidCommMessagingService>
+    connections: BoundService<typeof DidCommConnectionsService>
+    invitations: BoundService<typeof DidCommInvitationsService>
+    mediators: BoundService<typeof DidCommMediatorsService>
   }
 
-  trustedEntities: typeof TrustedEntitiesService
-  dids: typeof DidsService
-  certificates: typeof CertificatesService
-  certificateSigningRequests: typeof CertificateSigningRequestsService
+  trustedEntities: BoundService<typeof TrustedEntitiesService>
+  dids: BoundService<typeof DidsService>
+  certificates: BoundService<typeof CertificatesService>
+  certificateSigningRequests: BoundService<typeof CertificateSigningRequestsService>
 
-  revocation: typeof RevocationService
-  directIssuance: typeof DirectIssuanceService
-  issuedCredentials: typeof IssuedCredentialsService
+  revocation: BoundService<typeof RevocationService>
+  directIssuance: BoundService<typeof DirectIssuanceService>
+  issuedCredentials: BoundService<typeof IssuedCredentialsService>
 
-  authorizationServers: typeof AuthorizationServersService
-  attributeProviders: typeof AttributeProvidersService
+  authorizationServers: BoundService<typeof AuthorizationServersService>
+  attributeProviders: BoundService<typeof AttributeProvidersService>
 
   constructor({ apiKey, baseUrl = 'https://api.paradym.id' }: { apiKey: string; baseUrl?: string }) {
-    client.setConfig({
+    const client = createClient({
       baseUrl,
+      throwOnError: true,
       headers: {
         'x-access-token': apiKey,
       },
     })
 
-    this.projects = ProjectsService
-    this.projectProfile = ProjectProfileService
-    this.webhooks = WebhooksService
+    this.projects = bindClient(ProjectsService, client)
+    this.projectProfile = bindClient(ProjectProfileService, client)
+    this.webhooks = bindClient(WebhooksService, client)
 
     this.templates = {
-      presentations: PresentationTemplatesService,
+      presentations: bindClient(PresentationTemplatesService, client),
       credentials: {
-        sdJwtVc: SdJwtVcCredentialTemplatesService,
-        mdoc: MDocCredentialTemplatesService,
-        anoncreds: AnoncredsCredentialTemplatesService,
+        sdJwtVc: bindClient(SdJwtVcCredentialTemplatesService, client),
+        mdoc: bindClient(MDocCredentialTemplatesService, client),
+        anoncreds: bindClient(AnoncredsCredentialTemplatesService, client),
       },
     }
 
     this.openId4Vc = {
-      issuance: OpenId4VcIssuanceService,
-      verification: OpenId4VcVerificationService,
+      issuance: bindClient(OpenId4VcIssuanceService, client),
+      verification: bindClient(OpenId4VcVerificationService, client),
     }
 
     this.didcomm = {
-      issuance: DidCommIssuanceService,
-      verification: DidCommVerificationService,
-      messaging: DidCommMessagingService,
-      connections: DidCommConnectionsService,
-      invitations: DidCommInvitationsService,
-      mediators: DidCommMediatorsService,
+      issuance: bindClient(DidCommIssuanceService, client),
+      verification: bindClient(DidCommVerificationService, client),
+      messaging: bindClient(DidCommMessagingService, client),
+      connections: bindClient(DidCommConnectionsService, client),
+      invitations: bindClient(DidCommInvitationsService, client),
+      mediators: bindClient(DidCommMediatorsService, client),
     }
 
-    this.dids = DidsService
-    this.trustedEntities = TrustedEntitiesService
-    this.certificates = CertificatesService
-    this.certificateSigningRequests = CertificateSigningRequestsService
+    this.dids = bindClient(DidsService, client)
+    this.trustedEntities = bindClient(TrustedEntitiesService, client)
+    this.certificates = bindClient(CertificatesService, client)
+    this.certificateSigningRequests = bindClient(CertificateSigningRequestsService, client)
 
-    this.revocation = RevocationService
-    this.directIssuance = DirectIssuanceService
-    this.issuedCredentials = IssuedCredentialsService
+    this.revocation = bindClient(RevocationService, client)
+    this.directIssuance = bindClient(DirectIssuanceService, client)
+    this.issuedCredentials = bindClient(IssuedCredentialsService, client)
 
-    this.authorizationServers = AuthorizationServersService
-    this.attributeProviders = AttributeProvidersService
+    this.authorizationServers = bindClient(AuthorizationServersService, client)
+    this.attributeProviders = bindClient(AttributeProvidersService, client)
   }
 }
 
