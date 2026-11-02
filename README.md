@@ -41,6 +41,7 @@ Projects are now called wallets in Paradym. From 4.0, `@paradym/sdk` uses the `/
 - Path parameters use `walletId` instead of `projectId`, and the webhook methods take `webhookSubscriptionId` instead of `webhookId`.
 - Types are renamed to match, for example `Project` is now `Wallet` and `WebhookSubscription` is now `WalletWebhookSubscription`.
 - The package now has an `exports` map, so imports from `@paradym/sdk/build/...` no longer work. `isHmacValid` is exported from `@paradym/sdk`.
+- Each `Paradym` instance uses its own API key and base URL. Before, creating a new instance changed them for every instance. This applies to the client from `@paradym/sdk/projects` too.
 
 To keep using the deprecated `/v1/projects` API without other changes, import the client from `@paradym/sdk/projects`. It has the same API as 3.x:
 
