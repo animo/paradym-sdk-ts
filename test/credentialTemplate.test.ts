@@ -7,7 +7,7 @@ import { archiveSdJwtCredentialTemplate, createSdJwtCredentialTemplate } from '.
 describe('Credential Template', () => {
   it('should return all SdJwtVc credential templates', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const sdJwtCredentialTemplates = await client.templates.credentials.sdJwtVc.getAllCredentialTemplates({
+    const sdJwtCredentialTemplates = await client.templates.credentials.sdJwtVc.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -22,7 +22,7 @@ describe('Credential Template', () => {
     const createdCredentialTemplate = await createSdJwtCredentialTemplate(client)
 
     try {
-      const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.getCredentialTemplate({
+      const sdJwtCredentialTemplate = await client.templates.credentials.sdJwtVc.get({
         path: {
           walletId: WALLET_ID,
           credentialTemplateId: createdCredentialTemplate.id,

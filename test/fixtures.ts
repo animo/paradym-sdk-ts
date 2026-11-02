@@ -5,7 +5,7 @@ import { WALLET_ID } from './constants'
 // Tests create the templates they use, so they run against any wallet. Archive them afterwards.
 
 export async function createSdJwtCredentialTemplate(client: Paradym) {
-  const { data } = await client.templates.credentials.sdJwtVc.createCredentialTemplate({
+  const { data } = await client.templates.credentials.sdJwtVc.create({
     path: {
       walletId: WALLET_ID,
     },
@@ -24,7 +24,7 @@ export async function createSdJwtCredentialTemplate(client: Paradym) {
 }
 
 export async function archiveSdJwtCredentialTemplate(client: Paradym, credentialTemplateId: string) {
-  await client.templates.credentials.sdJwtVc.archiveTemplate({
+  await client.templates.credentials.sdJwtVc.archive({
     path: {
       walletId: WALLET_ID,
       credentialTemplateId,
@@ -33,7 +33,7 @@ export async function archiveSdJwtCredentialTemplate(client: Paradym, credential
 }
 
 export async function createPresentationTemplate(client: Paradym) {
-  const { data } = await client.templates.presentations.createPresentationTemplate({
+  const { data } = await client.templates.presentations.create({
     path: {
       walletId: WALLET_ID,
     },
@@ -59,7 +59,7 @@ export async function createPresentationTemplate(client: Paradym) {
 }
 
 export async function archivePresentationTemplate(client: Paradym, presentationTemplateId: string) {
-  await client.templates.presentations.archivePresentationTemplate({
+  await client.templates.presentations.archive({
     path: {
       walletId: WALLET_ID,
       presentationTemplateId,

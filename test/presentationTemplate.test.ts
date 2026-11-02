@@ -7,7 +7,7 @@ import { archivePresentationTemplate, createPresentationTemplate } from './fixtu
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplates({
+    const sdJwtPresentationTemplates = await client.templates.presentations.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -22,7 +22,7 @@ describe('Presentation Template', () => {
     const createdPresentationTemplate = await createPresentationTemplate(client)
 
     try {
-      const sdJwtPresentationTemplate = await client.templates.presentations.getPresentationTemplate({
+      const sdJwtPresentationTemplate = await client.templates.presentations.get({
         path: {
           walletId: WALLET_ID,
           presentationTemplateId: createdPresentationTemplate.id,
@@ -37,7 +37,7 @@ describe('Presentation Template', () => {
 
   it('should create a SdJwtVc presentation template', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -76,7 +76,7 @@ describe('Presentation Template', () => {
 
   it('should create a SdJwtVc and mDOC presentation template', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -129,7 +129,7 @@ describe('Presentation Template', () => {
 
   it('should archive a SdJwtVc presentation template', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -179,7 +179,7 @@ describe('Presentation Template', () => {
 
     assert.ok(sdJwtPresentationTemplate)
 
-    await client.templates.presentations.archivePresentationTemplate({
+    await client.templates.presentations.archive({
       path: {
         walletId: WALLET_ID,
         presentationTemplateId: sdJwtPresentationTemplate.data.id,
@@ -187,7 +187,7 @@ describe('Presentation Template', () => {
     })
 
     const actualFn = async () =>
-      client.templates.presentations.getPresentationTemplate({
+      client.templates.presentations.get({
         path: {
           walletId: WALLET_ID,
           presentationTemplateId: sdJwtPresentationTemplate.data.id,
@@ -214,7 +214,7 @@ describe('Presentation Template', () => {
     const createdPresentationTemplate = await createPresentationTemplate(client)
 
     try {
-      const sdJwtPresentationTemplate = await client.templates.presentations.updatePresentationTemplate({
+      const sdJwtPresentationTemplate = await client.templates.presentations.update({
         path: {
           walletId: WALLET_ID,
           presentationTemplateId: createdPresentationTemplate.id,

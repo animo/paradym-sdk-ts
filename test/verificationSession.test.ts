@@ -7,7 +7,7 @@ import { archivePresentationTemplate, createPresentationTemplate } from './fixtu
 describe('Verification Session', () => {
   it('should return all issuance sessions', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const verificationSessions = await client.openId4Vc.verification.getAllVerificationSessions({
+    const verificationSessions = await client.openId4Vc.verification.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -32,7 +32,7 @@ describe('Verification Session', () => {
       })
 
       await assert.rejects(
-        client.openId4Vc.verification.completeVerification({
+        client.openId4Vc.verification.complete({
           path: {
             walletId: WALLET_ID,
             openId4VcVerificationId: verificationSession.data.id,

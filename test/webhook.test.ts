@@ -6,7 +6,7 @@ import { BASE_URL, WALLET_ID, X_ACCESS_TOKEN } from './constants'
 describe('Webhooks', () => {
   it('should return all webhooks', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const webhooks = await client.webhooks.subscriptions.getWebhooks({
+    const webhooks = await client.webhooks.subscriptions.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -18,7 +18,7 @@ describe('Webhooks', () => {
 
   it('should create and delete a webhook', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const createdWebhook = await client.webhooks.subscriptions.createWebhook({
+    const createdWebhook = await client.webhooks.subscriptions.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -30,14 +30,14 @@ describe('Webhooks', () => {
 
     assert.ok(createdWebhook)
 
-    await client.webhooks.subscriptions.deleteWebhook({
+    await client.webhooks.subscriptions.delete({
       path: {
         walletId: WALLET_ID,
         webhookSubscriptionId: createdWebhook.data.id,
       },
     })
 
-    const { data } = await client.webhooks.subscriptions.getWebhooks({
+    const { data } = await client.webhooks.subscriptions.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -48,7 +48,7 @@ describe('Webhooks', () => {
 
   it('should return no deliveries for a new webhook', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const webhook = await client.webhooks.subscriptions.createWebhook({
+    const webhook = await client.webhooks.subscriptions.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -59,7 +59,7 @@ describe('Webhooks', () => {
     })
 
     try {
-      const deliveries = await client.webhooks.deliveries.getWebhookDeliveries({
+      const deliveries = await client.webhooks.deliveries.getAll({
         path: {
           walletId: WALLET_ID,
         },
@@ -70,7 +70,7 @@ describe('Webhooks', () => {
 
       assert.deepStrictEqual(deliveries.data.data, [])
 
-      const summary = await client.webhooks.deliveries.getWebhookDeliverySummary({
+      const summary = await client.webhooks.deliveries.getSummary({
         path: {
           walletId: WALLET_ID,
         },
@@ -83,7 +83,7 @@ describe('Webhooks', () => {
       assert.strictEqual(summary.data.delivered, 0)
       assert.strictEqual(summary.data.failed, 0)
 
-      const redeliverResult = await client.webhooks.deliveries.redeliverWebhookDeliveries({
+      const redeliverResult = await client.webhooks.deliveries.redeliverAll({
         path: {
           walletId: WALLET_ID,
         },
@@ -94,7 +94,7 @@ describe('Webhooks', () => {
 
       assert.strictEqual(redeliverResult.data.scheduledCount, 0)
     } finally {
-      await client.webhooks.subscriptions.deleteWebhook({
+      await client.webhooks.subscriptions.delete({
         path: {
           walletId: WALLET_ID,
           webhookSubscriptionId: webhook.data.id,
