@@ -8,7 +8,7 @@ describe('Trusted Entities', () => {
   it('can create and resolve trusted entity', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
 
-    const trustedEntity = await client.trustedEntities.createTrustedEntity({
+    const trustedEntity = await client.trustedEntities.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -24,7 +24,7 @@ describe('Trusted Entities', () => {
 
     assert.ok(trustedEntity)
 
-    const getTrustedEntity = await client.trustedEntities.getTrustedEntity({
+    const getTrustedEntity = await client.trustedEntities.get({
       path: {
         walletId: WALLET_ID,
         trustedEntityId: trustedEntity.data.id,
@@ -33,7 +33,7 @@ describe('Trusted Entities', () => {
 
     assert.deepEqual(trustedEntity.data, getTrustedEntity.data)
 
-    await client.trustedEntities.deleteTrustedEntity({
+    await client.trustedEntities.delete({
       path: {
         walletId: WALLET_ID,
         trustedEntityId: trustedEntity.data.id,
@@ -44,7 +44,7 @@ describe('Trusted Entities', () => {
   it('can get a common trusted entity', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
 
-    const commonTrustedEntities = await client.trustedEntities.getAllCommonTrustedEntities({
+    const commonTrustedEntities = await client.trustedEntities.getAllCommon({
       path: {
         walletId: WALLET_ID,
       },
@@ -54,7 +54,7 @@ describe('Trusted Entities', () => {
     assert.ok(commonTrustedEntities.data.data.length > 0)
     const [commonTrustedEntity] = commonTrustedEntities.data.data
 
-    const getCommonTrustedEntity = await client.trustedEntities.getCommonTrustedEntity({
+    const getCommonTrustedEntity = await client.trustedEntities.getCommon({
       path: {
         walletId: WALLET_ID,
         commonTrustedEntityId: commonTrustedEntity.id,

@@ -6,7 +6,7 @@ import { BASE_URL, WALLET_ID, X_ACCESS_TOKEN } from './constants'
 describe('Wallet Profile', () => {
   it('should return wallet profile', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const walletProfile = await client.walletProfile.getProfile({
+    const walletProfile = await client.walletProfile.get({
       path: { walletId: WALLET_ID },
     })
 
@@ -15,7 +15,7 @@ describe('Wallet Profile', () => {
 
   it('should update wallet profile', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
-    const updatedWalletProfile = await client.walletProfile.updateProfile({
+    const updatedWalletProfile = await client.walletProfile.update({
       path: { walletId: WALLET_ID },
       body: {
         displayName: 'Animo',

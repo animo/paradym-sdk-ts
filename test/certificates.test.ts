@@ -7,7 +7,7 @@ describe('Certificates', () => {
   it('can create and resolve certificate', async () => {
     const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
 
-    const existingCertificates = await client.certificates.getAllCertificates({
+    const existingCertificates = await client.certificates.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -19,7 +19,7 @@ describe('Certificates', () => {
     })
 
     if (existingCertificates.data.data.length) {
-      await client.certificates.revokeCertificate({
+      await client.certificates.revoke({
         path: {
           walletId: WALLET_ID,
           certificateId: existingCertificates.data.data[0].id,
@@ -27,7 +27,7 @@ describe('Certificates', () => {
       })
     }
 
-    const certificate = await client.certificates.createCertificate({
+    const certificate = await client.certificates.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -41,7 +41,7 @@ describe('Certificates', () => {
 
     assert.ok(certificate)
 
-    const getCertificate = await client.certificates.getAllCertificates({
+    const getCertificate = await client.certificates.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -54,7 +54,7 @@ describe('Certificates', () => {
 
     assert.deepEqual(certificate.data, getCertificate.data.data[0])
 
-    await client.certificates.revokeCertificate({
+    await client.certificates.revoke({
       path: {
         walletId: WALLET_ID,
         certificateId: certificate.data.id,
