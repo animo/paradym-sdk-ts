@@ -1,5 +1,6 @@
 import { strict as assert } from 'node:assert'
 import { afterEach, beforeEach, describe, it } from 'node:test'
+import { createClient } from '../generated/wallets/client'
 import Paradym from '../src/client'
 import ProjectsParadym from '../src/projects/client'
 
@@ -34,6 +35,18 @@ describe('Client', () => {
         ['https://second.example', 'second-key'],
         ['https://first.example', 'first-key'],
       ]
+    )
+  })
+
+  it('should use the client passed to a call', async () => {
+    const paradym = new Paradym({ apiKey: 'instance-key', baseUrl: 'https://instance.example' })
+    const client = createClient({ baseUrl: 'https://call.example', headers: { 'x-access-token': 'call-key' } })
+
+    await paradym.wallets.getAll({ client })
+
+    assert.deepEqual(
+      requests.map((request) => [new URL(request.url).origin, request.headers.get('x-access-token')]),
+      [['https://call.example', 'call-key']]
     )
   })
 

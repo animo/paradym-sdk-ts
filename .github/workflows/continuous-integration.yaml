@@ -5,6 +5,16 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Paradym API to run the tests against"
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
 
 jobs:
   validate:
@@ -34,3 +44,38 @@ jobs:
         run: pnpm build
         env:
           SERVER: https://api.paradym.id/openapi.json
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    name: Test against the Paradym API
+    # Fork and Dependabot PRs don't get the secrets, so they skip the tests.
+    if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')
+    environment: ${{ inputs.environment || 'dev' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate client
+        run: pnpm generate
+        env:
+          SERVER: ${{ vars.BASE_URL }}/openapi.json
+
+      - name: Run tests
+        run: pnpm test
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+          WALLET_ID: ${{ vars.WALLET_ID }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
