@@ -1,12 +1,13 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 import Paradym from '../src/client'
-import { PRESENTATION_TEMPLATE_ID, WALLET_ID, X_ACCESS_TOKEN } from './constants'
+import { BASE_URL, WALLET_ID, X_ACCESS_TOKEN } from './constants'
+import { archivePresentationTemplate, createPresentationTemplate } from './fixtures'
 
 describe('Presentation Template', () => {
   it('should return all SdJwtVc presentation templates', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplates = await client.templates.presentations.getAllPresentationTemplates({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const sdJwtPresentationTemplates = await client.templates.presentations.getAll({
       path: {
         walletId: WALLET_ID,
       },
@@ -17,20 +18,26 @@ describe('Presentation Template', () => {
   })
 
   it('should return a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplate = await client.templates.presentations.getPresentationTemplate({
-      path: {
-        walletId: WALLET_ID,
-        presentationTemplateId: PRESENTATION_TEMPLATE_ID,
-      },
-    })
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const createdPresentationTemplate = await createPresentationTemplate(client)
 
-    assert.ok(sdJwtPresentationTemplate)
+    try {
+      const sdJwtPresentationTemplate = await client.templates.presentations.get({
+        path: {
+          walletId: WALLET_ID,
+          presentationTemplateId: createdPresentationTemplate.id,
+        },
+      })
+
+      assert.strictEqual(sdJwtPresentationTemplate.data.id, createdPresentationTemplate.id)
+    } finally {
+      await archivePresentationTemplate(client, createdPresentationTemplate.id)
+    }
   })
 
   it('should create a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -68,8 +75,8 @@ describe('Presentation Template', () => {
   })
 
   it('should create a SdJwtVc and mDOC presentation template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -121,8 +128,8 @@ describe('Presentation Template', () => {
   })
 
   it('should archive a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplate = await client.templates.presentations.createPresentationTemplate({
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const sdJwtPresentationTemplate = await client.templates.presentations.create({
       path: {
         walletId: WALLET_ID,
       },
@@ -172,7 +179,7 @@ describe('Presentation Template', () => {
 
     assert.ok(sdJwtPresentationTemplate)
 
-    await client.templates.presentations.archivePresentationTemplate({
+    await client.templates.presentations.archive({
       path: {
         walletId: WALLET_ID,
         presentationTemplateId: sdJwtPresentationTemplate.data.id,
@@ -180,7 +187,7 @@ describe('Presentation Template', () => {
     })
 
     const actualFn = async () =>
-      client.templates.presentations.getPresentationTemplate({
+      client.templates.presentations.get({
         path: {
           walletId: WALLET_ID,
           presentationTemplateId: sdJwtPresentationTemplate.data.id,
@@ -203,42 +210,48 @@ describe('Presentation Template', () => {
   })
 
   it('should update a SdJwtVc presentation template', async () => {
-    const client = new Paradym({ apiKey: X_ACCESS_TOKEN })
-    const sdJwtPresentationTemplate = await client.templates.presentations.updatePresentationTemplate({
-      path: {
-        walletId: WALLET_ID,
-        presentationTemplateId: PRESENTATION_TEMPLATE_ID,
-      },
-      body: {
-        credentials: [
-          {
-            description: 'This is a description',
-            name: 'My SD-JWT VC credential',
-            format: 'sd-jwt-vc',
-            type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
-            trustedIssuers: [],
-            attributes: {
-              myAttribute1: {
-                type: 'string',
-                value: 'myValue',
-              },
-              myAttribute2: {
-                type: 'number',
-                minimum: 1,
-                maximum: 10,
-              },
-              myAttribute3: {
-                type: 'boolean',
-                value: true,
+    const client = new Paradym({ apiKey: X_ACCESS_TOKEN, baseUrl: BASE_URL })
+    const createdPresentationTemplate = await createPresentationTemplate(client)
+
+    try {
+      const sdJwtPresentationTemplate = await client.templates.presentations.update({
+        path: {
+          walletId: WALLET_ID,
+          presentationTemplateId: createdPresentationTemplate.id,
+        },
+        body: {
+          credentials: [
+            {
+              description: 'This is a description',
+              name: 'My SD-JWT VC credential',
+              format: 'sd-jwt-vc',
+              type: 'https://metadata.paradym.id/types/28dc88-UniversityCard',
+              trustedIssuers: [],
+              attributes: {
+                myAttribute1: {
+                  type: 'string',
+                  value: 'myValue',
+                },
+                myAttribute2: {
+                  type: 'number',
+                  minimum: 1,
+                  maximum: 10,
+                },
+                myAttribute3: {
+                  type: 'boolean',
+                  value: true,
+                },
               },
             },
-          },
-        ],
-        description: 'Description updated by the test',
-        name: 'Name updated by the test',
-      },
-    })
+          ],
+          description: 'Description updated by the test',
+          name: 'Name updated by the test',
+        },
+      })
 
-    assert.ok(sdJwtPresentationTemplate)
+      assert.ok(sdJwtPresentationTemplate)
+    } finally {
+      await archivePresentationTemplate(client, createdPresentationTemplate.id)
+    }
   })
 })

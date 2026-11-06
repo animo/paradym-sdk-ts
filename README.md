@@ -36,9 +36,12 @@ Check out the [TypeScript SDK docs](https://docs.paradym.id/api-and-dashboard/ty
 Projects are now called wallets in Paradym. From 4.0, `@paradym/sdk` uses the `/v1/wallets` API:
 
 - `paradym.projects` is now `paradym.wallets`, and `paradym.projectProfile` is now `paradym.walletProfile`.
-- Path parameters use `walletId` instead of `projectId`.
+- Methods have shorter names, for example `paradym.trustedEntities.getAllTrustedEntities` is now `paradym.trustedEntities.getAll`.
+- The webhook methods moved to `paradym.webhooks.subscriptions` and `paradym.webhooks.deliveries`, for example `paradym.webhooks.subscriptions.getAll`.
+- Path parameters use `walletId` instead of `projectId`, and the webhook methods take `webhookSubscriptionId` instead of `webhookId`.
 - Types are renamed to match, for example `Project` is now `Wallet` and `WebhookSubscription` is now `WalletWebhookSubscription`.
 - The package now has an `exports` map, so imports from `@paradym/sdk/build/...` no longer work. `isHmacValid` is exported from `@paradym/sdk`.
+- Each `Paradym` instance uses its own API key and base URL. Before, creating a new instance changed them for every instance. This applies to the client from `@paradym/sdk/projects` too.
 
 To keep using the deprecated `/v1/projects` API without other changes, import the client from `@paradym/sdk/projects`. It has the same API as 3.x:
 
