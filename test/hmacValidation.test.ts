@@ -23,6 +23,16 @@ describe('HMAC validation', () => {
     assert.strictEqual(result, false, 'The HMAC should be invalid')
   })
 
+  it('should return false for HMAC of the right length with a different last character', () => {
+    const secret = 'supersecret'
+    const rawBody = 'Hello, world!'
+    const validHmac = Buffer.from(hmac(sha256, Buffer.from(secret), Buffer.from(rawBody))).toString('hex')
+    const receivedHmac = validHmac.slice(0, -1) + (validHmac.endsWith('0') ? '1' : '0')
+
+    const result = isHmacValid(secret, receivedHmac, rawBody)
+    assert.strictEqual(result, false, 'The HMAC should be invalid')
+  })
+
   it('should handle Buffer input', () => {
     const secret = 'supersecret'
     const rawBody = Buffer.from('Hello, world!')

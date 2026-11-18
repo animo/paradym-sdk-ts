@@ -8,5 +8,10 @@ export function isHmacValid(secret: string, receivedHmac: string, rawBody: Buffe
     hmac(sha256, textEncoder.encode(secret), typeof rawBody === 'string' ? textEncoder.encode(rawBody) : rawBody)
   )
 
-  return computedHmac === receivedHmac
+  // Compare in constant time, so timing does not reveal the expected HMAC. The length is public.
+  // A loop instead of node:crypto's timingSafeEqual keeps the SDK working outside Node.js.
+  if (computedHmac.length !== receivedHmac.length) return false
+  let diff = 0
+  for (let i = 0; i < computedHmac.length; i++) diff |= computedHmac.charCodeAt(i) ^ receivedHmac.charCodeAt(i)
+  return diff === 0
 }
